@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+<div class="container">
+    <!--Django Model Form-->
+    <h2 class="my-4">Input your data</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+          {{user_data|crispy}}
+          <button class="btn btn-primary my-4" type="submit" href="/admin-url">Submit</button>
+    </form>
+    <!--Django Model-->
+
+
+{% endblock content%}
