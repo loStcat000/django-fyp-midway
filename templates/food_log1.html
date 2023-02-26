@@ -1,0 +1,31 @@
+{% extends 'base.html' %}   
+{% block content %}            
+                            <div class='card bg-light mb-3'>
+                              {{api}}
+                                <div class='card-header'>
+                                    <h5>Select food to add to the Food Log</h5>
+                                </div>
+                                <div class='card-body'>
+
+                                    <div class='input-group'>
+                                        <form method='POST'>
+                                            {% csrf_token %}
+                                            <div class='input-group'>
+                                                <div class='row'>
+                                                    <div class='col-8'>
+                                                        <input type = 'text' name = 'query' class = 'form-control inputstyle'
+                                                            placeholder='search for calories burned from exercise...' required>
+
+                                                    </div>
+                                                    <div class='col-4'>
+                                                        <button type='submit' class='btn btn-success'>
+                                                            Add Exercise
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    
+                                    
+{% endblock %} 

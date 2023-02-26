@@ -1,6 +1,8 @@
 from django.db import models
+from accounts.forms import User
+from django.conf import settings
+from django.utils import timezone
 
-# Create your models here.
 class UserData(models.Model):
     Gender_Choices =[
     ('Male', "Male"),
@@ -13,14 +15,19 @@ class UserData(models.Model):
                   ('4','Very Active : (heavy exercise 6-7 days / week)'),
                   ('5' ,'Extremely Active: (very heavy exercise, hard labor job, training 2x / day)')
                 ]
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default='DEFAULT VALUE')
     gender = models.CharField(choices = Gender_Choices, max_length=100)
     birthday = models.DateField()
     age = models.IntegerField()
     height = models.DecimalField(max_digits=5, decimal_places=2)
     weight = models.DecimalField(max_digits=5, decimal_places=2)
-    activitylevel = models.CharField(choices = Activity_Choices, max_length=100)\
+    activitylevel = models.CharField(choices = Activity_Choices, max_length=100)
     
+    def __str__(self):
+            return f'{self.user}'
+
+    
+
 class FoodCategory(models.Model):
     category_name = models.CharField(max_length=50)
 
@@ -36,6 +43,7 @@ class FoodCategory(models.Model):
         return Food.objects.filter(category=self).count()   
 
 class Food(models.Model):
+ 
     food_name = models.CharField(max_length=200)
     quantity = models.DecimalField(max_digits=7, decimal_places=2, default=100.00)
     calories = models.IntegerField(default=0)
@@ -56,3 +64,28 @@ class Image(models.Model):
         return f'{self.image}'
 
 
+class FoodLog(models.Model):
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    food_consumed = models.ForeignKey(Food, on_delete=models.CASCADE)
+    food_entry_date = models.DateField(default=timezone.now)
+
+    class Meta:
+        verbose_name = 'Food Log'
+        verbose_name_plural = 'Food Log'
+
+    def __str__(self):
+        return f'{self.user.username} - {self.food_consumed.food_name}'
+
+
+class Weight(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    weight = models.DecimalField(max_digits=7, decimal_places=2)
+    entry_date = models.DateField()
+
+    class Meta:
+        verbose_name = 'Weight'
+        verbose_name_plural = 'Weight'
+
+    def __str__(self):
+        return f'{self.user.username} - {self.weight} kg on {self.entry_date}'

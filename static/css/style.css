@@ -1,8 +1,24 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
-    margin: 0;
-    color: #6a6f8c;
-    background: #c8c8c8;
-    font: 600 16px/18px 'Open Sans', sans-serif;
+    margin: 0 0 90px;
+    /* bottom = footer height */
+    font-family: 'Montserrat', sans-serif !important;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrap {
+    flex: 1;
+}
+
+.footer {
+    height: 68px;
+    /* adjust this value to match the height of your footer */
 }
 
 *,

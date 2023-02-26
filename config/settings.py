@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,7 +41,7 @@ INSTALLED_APPS = [
     'crispy_forms', #crispy form
     'pages',
     'accounts',
-
+    'clearcache',
     #for social
     'django.contrib.sites',
     'allauth',
@@ -113,12 +114,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
    'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME' : 'food',
-        'HOST' : '127.0.0.1',
+        'HOST' : 'localhost',
         'PORT' : '',
-        'USER' : 'root',
-        'PASSWORD' : 'reformedno1',
+        'USER' : 'postgres',
+        'PASSWORD' : '123',
         
     }
 }
@@ -167,5 +168,12 @@ STATICFILES_DIRS = [
     "/Dixit Giri/Desktop/fyp1/static" ,
     
 ]
-LOGIN_REDIRECT_URL = 'home.html' # new
-LOGOUT_REDIRECT_URL = 'home' # new
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_REDIRECT_URL = '' # new
+LOGOUT_REDIRECT_URL = 'index' # new
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
