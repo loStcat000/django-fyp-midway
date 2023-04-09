@@ -44,11 +44,13 @@ INSTALLED_APPS = [
     'clearcache',
     #for social
     'django.contrib.sites',
+    
     'allauth',
     'allauth.account',
     'allauth.socialaccount', 
 
-    'allauth.socialaccount.providers.google', #for google auth
+    'allauth.socialaccount.providers.google',#for google auth
+    'allauth.socialaccount.providers.github', 
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -57,10 +59,19 @@ AUTHENTICATION_BACKENDS = (
   
  #used for social authentications
  'allauth.account.auth_backends.AuthenticationBackend',
+ 
  )
 
-SITE_ID = 2
+SITE_ID = 3
+
 LOGIN_REDIRECT_URL = '/'
+# Additional configuration settings
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+ACCOUNT_ADAPTER = "accounts.adapters.AccountAdapter"
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -69,11 +80,44 @@ SOCIALACCOUNT_PROVIDERS = {
             'profile',
             'email',
         ],
+        
         'AUTH_PARAMS': {
             'access_type': 'online',
         }
+        
+        
+    }
+
+    
+}
+
+ACCOUNT_SIGNUP_FORM_CLASS = 'accounts.forms.SignupForm'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
+        'SCOPE': ['email', 'public_profile'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'INIT_PARAMS': {'cookie': True},
+        'FIELDS': [
+            'id',
+            'first_name',
+            'last_name',
+            'middle_name',
+            'name',
+            'name_format',
+            'picture',
+            'short_name'
+        ],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': 'path.to.callable',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v13.0',
+        'GRAPH_API_URL': 'https://graph.facebook.com/v13.0',
     }
 }
+
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -86,6 +130,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -101,6 +146,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
             ],
         },
     },
@@ -173,7 +219,9 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-LOGIN_REDIRECT_URL = '' # new
+LOGIN_REDIRECT_URL = '/food/list' # new
 LOGOUT_REDIRECT_URL = 'index' # new
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+

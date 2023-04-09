@@ -1,0 +1,130 @@
+{% extends 'base.html' %}   
+
+{% load static %}
+{% block content %}      
+
+<style>
+
+ 
+
+    #unique-card{
+        border-radius: 4px;
+        background-color: #f8f9fa;
+        box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+          transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+      
+        cursor: pointer;
+        
+        padding-bottom: 1px;
+        
+        
+    }
+    
+    #unique-card:hover{
+         transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    }
+
+</style>
+
+<div class='py-4 mt-auto'>
+    <div class='container-fluid px-4'>
+        
+        
+        <div class='row justify-content-center'>
+            <div class='col-xl-12'>
+                
+                    <div class='row'>
+                        <div class='col-md-12 mt-5'>
+
+                            <div class='card bg-white mb-3'>
+                              
+                                <div class='card-header'>
+                                    <h5>Select muscle group </h5>
+                                </div>
+                                <div class='card-body'>
+
+                                    <div class='input-group'>
+                                        <form method='POST'>
+                                            {% csrf_token %}
+                                            <div class='input-group'>
+                                                <div class='row'>
+                                                    <div class='col-md-12'>
+                                                        <input type = 'text' name = 'query' class = 'form-control inputstyle'
+                                                            placeholder='search for muscle group' required>
+
+                                                    </div>
+                                                    <div class='col-md-12 mt-2'>
+                                                        <button type='submit' class='btn btn-success'>
+                                                            Add Exercise 
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                          
+                            <div class='row justify-content-center' >
+                                {% for item in api %}   
+
+                                <div class='col-sm-12 col-md-12 col-lg-4 col-xl-3 d-flex align-items-stretch ' >
+                                    
+                                    <div class='card text-black bg-white card border-secondary mb-3 shadow-sm ' id="unique-card"  >
+                                        
+                                     
+                                       
+                                
+                                        <div class='card-body' >
+
+                                            <h4 class='card-title'>
+                                                <!-- Food name -->
+                                                <strong>Name: {{ item.name }}</strong>
+                                            </h4>
+                                
+                                            <p class='card-text'>
+                                                <div class='my-3'>
+                                                    <!-- Food category -->
+                                                    Type: {{ item.type }}
+                                                </div>
+                                            </p>
+                                            
+                                            <p class='card-text'>
+                                                <div class='my-3'>
+                                                    <!-- Food category -->
+                                                    Muscle: {{ item.muscle }}
+                                                </div>
+                                            </p>
+                                
+                                            <p class='card-text'>
+                                                <div class='my-3'>
+                                                    <!-- Food category -->
+                                                    equipment: {{ item.equipment }}
+                                                </div>
+                                            </p>
+                                
+                                            <p class='card-text'>
+                                                <div class='my-3'>
+                                                    <!-- Food category -->
+                                                    difficulty: {{ item.difficulty }}
+                                                </div>
+                                            </p>
+                                
+                                            
+                                        </div>
+                                
+                                    </div>
+                                </div> 
+                                  
+                                 
+                                {% endfor %}
+
+{% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/script.js/2.5.9/script.min.js" integrity="sha512-nQUxc8VAJRo3Q01idWkxWJADjVoRenyGNrUy6+ighjjZg/obzeII29QiMMVfYpCEVQyFyWEiOEw4uhJqX9/J6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
+  
+{% endblock script %}
+{% endblock content %} 
+

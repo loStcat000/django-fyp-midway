@@ -9,3 +9,6 @@ admin.site.register(FoodCategory)
 admin.site.register(Image)
 admin.site.register(FoodLog)
 admin.site.register(Weight)
+
+class FoodLog(admin.ModelAdmin):
+    list_display = ('user', 'food_consumed', 'food_entry_date')

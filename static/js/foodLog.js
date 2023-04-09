@@ -1,7 +1,10 @@
-var table  = document.getElementById('foodtable');
-var calories = 0, fat = 0, carbohydrates = 0, protein = 0;
+var table = document.getElementById('foodtable');
+var calories = 0,
+    fat = 0,
+    carbohydrates = 0,
+    protein = 0;
 
-for(var i = 1; i <table.rows.length - 1; i++) {
+for (var i = 1; i < table.rows.length - 1; i++) {
     calories += parseFloat(table.rows[i].cells[1].innerHTML);
 
     fat += parseFloat(table.rows[i].cells[2].innerHTML);
@@ -11,7 +14,7 @@ for(var i = 1; i <table.rows.length - 1; i++) {
     carbohydrates = Math.round(carbohydrates);
 
     protein += parseFloat(table.rows[i].cells[4].innerHTML);
-    protein = Math.round(protein);    
+    protein = Math.round(protein);
 }
 
 document.getElementById('totalCalories').innerHTML = '<b>' + calories + '</b>';
@@ -21,9 +24,9 @@ document.getElementById('totalProtein').innerHTML = '<b>' + protein + '</b>';
 
 var total = fat + carbohydrates + protein;
 
-var fatPercentage =  Math.round((fat / total) * 100);
-var carbohydratesPercentage =  Math.round((carbohydrates / total) * 100);
-var proteinPercentage =  Math.round((protein / total) * 100);
+var fatPercentage = Math.round((fat / total) * 100);
+var carbohydratesPercentage = Math.round((carbohydrates / total) * 100);
+var proteinPercentage = Math.round((protein / total) * 100);
 
 fatPercentage = fatPercentage ? fatPercentage : 0;
 carbohydratesPercentage = carbohydratesPercentage ? carbohydratesPercentage : 0;
@@ -40,17 +43,14 @@ var myPieChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
         labels: [
-            'Fat ' + fatPercentage + '%', 
-            'Carbs ' +  carbohydratesPercentage + '%', 
+            'Fat ' + fatPercentage + '%',
+            'Carbs ' + carbohydratesPercentage + '%',
             'Protein ' + proteinPercentage + '%'
         ],
-        datasets: 
-        [
-            {
-                data: [fatPercentage, carbohydratesPercentage, proteinPercentage],
-                backgroundColor: ['#e5a641', '#55b560', '#419ad6'],
-            }
-        ],
+        datasets: [{
+            data: [fatPercentage, carbohydratesPercentage, proteinPercentage],
+            backgroundColor: ['#e5a641', '#55b560', '#419ad6'],
+        }],
     },
     options: {
         responsive: true,
@@ -87,14 +87,17 @@ var myPieChart = new Chart(ctx, {
 
 // Calorie Goal Progress Bar
 
-var caloriePercentage = (calories / 2000) *  100;
+var caloriePercentage = (calories / 2000) * 100;
 //document.getElementById('progressBar').setAttribute('style', 'width:' + caloriePercentage + '%');
 
 $('.progress-bar').animate({
     width: caloriePercentage + '%',
 
 }, 500);
-var interval = setInterval(function () {
-$('.progress-bar').html(caloriePercentage + '%');
+var interval = setInterval(function() {
+    $('.progress-bar').html(caloriePercentage + '%');
 
 }, 500);
+
+
+// Micronutrients Bar

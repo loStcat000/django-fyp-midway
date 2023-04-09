@@ -19,6 +19,7 @@ from accounts import views
 from django.conf.urls.static import static
 from django.conf import settings
 
+
 urlpatterns = [
     path('admin/clearcache/', include('clearcache.urls')),
     path('admin/', admin.site.urls),
@@ -29,7 +30,7 @@ urlpatterns = [
     path('signup/',views.signup_request, name='signup'), #signup
     path('logout/',views.logout_request, name='logout'), #logout
     path('accounts/', include('allauth.urls')),
-   
+
 ]
 
 if settings.DEBUG:

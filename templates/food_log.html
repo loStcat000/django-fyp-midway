@@ -5,9 +5,11 @@
 {% block title %}Food Tracker | Food Log{% endblock %}
 
 {% block content %}
+
+
 <div class='py-4 mt-auto'>
     <div class='container-fluid px-4'>
-        {{api}}
+        
         
         <div class='row justify-content-center'>
             <div class='col-xl-12'>
@@ -49,35 +51,7 @@
                             </div>
                             
                             
-                            <div class='card bg-light mb-3'>
-                              
-                                <div class='card-header'>
-                                    <h5>Select food to add to the Food Log</h5>
-                                </div>
-                                <div class='card-body'>
-
-                                    <div class='input-group'>
-                                        <form method='POST'>
-                                            {% csrf_token %}
-                                            <div class='input-group'>
-                                                <div class='row'>
-                                                    <div class='col-8'>
-                                                        <input type = 'text' name = 'query' class = 'form-control inputstyle'
-                                                            placeholder='search for calories burned from exercise...' required>
-
-                                                    </div>
-                                                    <div class='col-4'>
-                                                        <button type='submit' class='btn btn-success'>
-                                                            Add Exercise
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-
-                                </div>
-                            </div>
+                    
 
                             <div class='card bg-light mb-3'>
 
@@ -100,6 +74,7 @@
                                         </thead>
                                         <tbody>
                                         {% for food_item in user_food_log %}
+                                       
                                             <tr>
                                                 <td class='col-md-2'>{{ food_item.food_consumed.food_name }}</td>
                                                 <td class='col-md-2'>{{ food_item.food_consumed.calories }}</td>
@@ -113,6 +88,7 @@
                                                 </td>
                                             </tr>
                                         {% endfor %}
+                                       
                                             <tr>
                                                 <td id='foodName' class='col-md-2'><b>Total</b></td>
                                                 <td id='totalCalories' class='col-md-2'><b></b></td>
@@ -121,6 +97,7 @@
                                                 <td id='totalProtein' class='col-md-2'><b></b></td>
                                                 <td></td>     
                                             </tr>
+                                         
                                         </tbody>
                                     </table>
                                     
@@ -162,7 +139,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+
+                        
+                            
                         
                     </div>
             </div>
@@ -172,12 +151,44 @@
 </div>    
 
 
+
+
 {% block script %}
     <!-- Page level plugins -->    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
+    
     <!-- Page level custom scripts -->
     <script src="{% static 'js/foodLog.js' %}"></script>
+    <script>
+        var chartData = [];
+        
+        {% for food_item in user_food_log %}
+          chartData.push({
+            label: "sodium  ",
+            data: [ {{ food_item.food_consumed.sodium }} ],
+            backgroundColor: "{{ item.backgroundColor }}",
+            borderColor:  "{{ item.borderColor }}",
+            borderWidth: 1
+          },
+        );
+         
+        {% endfor %}
+          
+        
+        var ctx = document.getElementById('microChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ["Calories Burned", ],
+            datasets: chartData
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+        });
+        
+      </script>
 {% endblock script %}
 {% endblock content %}

@@ -1,9 +1,23 @@
+
+
 {% extends 'base.html' %}   
+
+{% load static %}
 {% block content %}            
+<div class='py-4 mt-auto'>
+    <div class='container-fluid px-4'>
+        
+        
+        <div class='row justify-content-center'>
+            <div class='col-xl-12'>
+                
+                    <div class='row'>
+                        <div class='col-md-12 mt-5'>
+
                             <div class='card bg-light mb-3'>
-                              {{api}}
+                              
                                 <div class='card-header'>
-                                    <h5>Select food to add to the Food Log</h5>
+                                    <h5>Select exercise to know the calories burned</h5>
                                 </div>
                                 <div class='card-body'>
 
@@ -12,12 +26,12 @@
                                             {% csrf_token %}
                                             <div class='input-group'>
                                                 <div class='row'>
-                                                    <div class='col-8'>
+                                                    <div class='col-md-12'>
                                                         <input type = 'text' name = 'query' class = 'form-control inputstyle'
                                                             placeholder='search for calories burned from exercise...' required>
 
                                                     </div>
-                                                    <div class='col-4'>
+                                                    <div class='col-md-12 mt-2'>
                                                         <button type='submit' class='btn btn-success'>
                                                             Add Exercise
                                                         </button>
@@ -26,6 +40,92 @@
                                             </div>
                                         </form>
                                     </div>
-                                    
-                                    
-{% endblock %} 
+                                </div>
+                            </div>
+        <div class='card bg-light mb-7'>
+
+            <div class='card-header'>
+                
+                                            <h5>Calories Burned through exercise</h5>
+                                            
+                                        </div>
+                                        <div class='card-body'>
+        
+                                            <table id='foodtable' class='table table-hover'>
+                                                <thead>
+                                                    <tr>
+                                                        <th scope='col' class='col-md-2'>Name</th>
+                                                        <th scope='col' class='col-md-2'>Calories Burned</th>
+                                                        <th scope='col' class='col-md-2'>Duration (minutes)</th>
+                                                        <th scope='col' class='col-md-2'>Total Calories</th>
+                                                    
+                                                
+                                                    </tr>
+                                                </thead>    
+                                              
+                                                <tbody>
+                                                    {% for item in api %}
+                                                   
+                                                    <tr>
+                                                        <td class='col-md-2'>{{ item.name }}</td>
+                                                        <td class='col-md-2'>{{ item.calories_per_hour }}</td>
+                                                        <td class='col-md-2'>{{ item.duration_minutes }}</td>
+                                                        <td class='col-md-2'>{{ item.total_calories }}</td>  
+                                                    </td>
+                                                    </tr>     
+                                                    {% endfor %}
+                                                    
+                                                </tbody>
+
+                                            </table>
+      
+                                        </div>
+                                    </div>
+
+     
+        <div class='col-md-12 mt-5'>    
+            
+                    <canvas id="myChart" height = "700"></canvas>
+                        
+        </div>
+           
+
+
+{% block script %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/script.js/2.5.9/script.min.js" integrity="sha512-nQUxc8VAJRo3Q01idWkxWJADjVoRenyGNrUy6+ighjjZg/obzeII29QiMMVfYpCEVQyFyWEiOEw4uhJqX9/J6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>                         
+        <!-- Page level custom scripts -->
+        <script>
+            const chartData = [];
+            
+            {% for item in api %}
+              chartData.push({
+                label: "{{ item.name }} ",
+                data: [{{ item.total_calories }}],
+                backgroundColor: "{{ item.backgroundColor }}",
+                borderColor:  "{{ item.borderColor }}",
+                borderWidth: 1
+              },
+            );
+             
+            {% endfor %}
+              
+            
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: ["Calories Burned", ],
+                datasets: chartData
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+            });
+            
+          </script>
+                            
+
+{% endblock script %}
+{% endblock content %}

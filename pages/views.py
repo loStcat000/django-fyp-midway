@@ -1,13 +1,15 @@
 from django import forms
-from django.shortcuts import render
+
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from .forms import UserDataForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse
+from datetime import datetime
+from datetime import date
 
 from .models import Food, FoodCategory, Image, Weight, FoodLog
 from .forms import FoodForm, ImageForm
@@ -15,7 +17,7 @@ from .forms import FoodForm, ImageForm
 # Create your views here.
 def index(request):
     
-    return food_list_view(request)
+    return render(request, 'index.html')
 
 def User_Data(request):
         if request.method == "POST":
@@ -41,7 +43,7 @@ def food_list_view(request):
     
     # Show 4 food items per page
     page = request.GET.get('page', 1)
-    paginator = Paginator(foods, 6)
+    paginator = Paginator(foods, 8)
     try:
         pages = paginator.page(page)
     except PageNotAnInteger:
@@ -49,7 +51,7 @@ def food_list_view(request):
     except EmptyPage:
         pages = paginator.page(paginator.num_pages)
 
-    return render(request, 'index.html', {
+    return render(request, 'food_list.html', {
         'categories': FoodCategory.objects.all(),
         'foods': foods,
         'pages': pages,
@@ -72,8 +74,10 @@ def food_details_view(request, food_id):
         'images': food.get_images.all(),
     })
 
-@login_required
+
 def food_add_view(request):
+    if not request.user.is_superuser:
+        return HttpResponse(status=403) 
     '''
     It allows the user to add a new food item
     '''
@@ -114,37 +118,51 @@ def food_add_view(request):
             'food_form': FoodForm(),
             'image_form': ImageFormSet(queryset=Image.objects.none()),
         })
-    
+
+
+
+
 @login_required
 def food_log_view(request):
     '''
     It allows the user to select food items and 
     add them to their food log
     '''
+    today = date.today()
+
+
     if request.method == 'POST':
         foods = Food.objects.all()
-
+        
         # get the food item selected by the user
         food = request.POST['food_consumed']
         food_consumed = Food.objects.get(food_name=food)
+        
+        
 
-        # get the currently logged in user
+
+         # get the currently logged in user
         user = request.user
         
+
+
         # add selected food to the food log
-        food_log = FoodLog(user=user, food_consumed=food_consumed)
+        food_log = FoodLog(user=user, food_consumed=food_consumed,  )
         food_log.save()
 
     else: # GET method
         foods = Food.objects.all()
         
     # get the food log of the logged in user
-    user_food_log = FoodLog.objects.filter(user=request.user)
+    user_food_log = FoodLog.objects.filter(user=request.user, food_entry_date__date = today)  
+
     
+
     return render(request, 'food_log.html', {
         'categories': FoodCategory.objects.all(),
         'foods': foods,
         'user_food_log': user_food_log
+
     })
 @login_required
 def food_log_delete(request, food_id):
@@ -233,7 +251,7 @@ def category_details_view(request, category_name):
 
     # Show 4 food items per page
     page = request.GET.get('page', 1)
-    paginator = Paginator(foods, 4)
+    paginator = Paginator(foods, 8)
     try:
         pages = paginator.page(page)
     except PageNotAnInteger:
@@ -263,6 +281,75 @@ def exercise(request):
         except Exception as e: 
             api = " oops! your requested exercise was not found."
             print (e)
-        return render(request, 'food_log1.html',{'api':api})
+        return render(request, 'food_log1.html',{
+            'api':api
+            })
     else:
         return render(request, 'food_log1.html',{'activity':'Enter a valid exercise'})
+    
+
+'''api for exercise index'''
+def exerciseindex(request):
+    import json
+    import requests
+
+    if request.method == 'POST':
+        query = request.POST['query']
+        api_url = 'https://api.api-ninjas.com/v1/exercises?muscle=biceps'
+        response = requests.get (api_url , headers ={'X-Api_Key': 'kELJsTw/wyxwiijafbI+xA==HFqUpMC1PJqQSw5k'})
+        try:
+            api = json.loads(response.content)
+            print(response.content)
+        except Exception as e: 
+            api = " oops! your requested exercise was not found."
+            print (e)
+        return render(request, 'exercise_index.html',{
+            'api':api
+            })
+    else:
+        return render(request, 'exercise_index.html',{'api':'Enter a valid exercise'})
+    
+
+def post_api_data(request):
+    import json
+    import requests
+    
+   
+    if request.method == 'POST':
+        query = request.POST['query']
+    # Define the URL of the API endpoint and the data to be sent
+        url = 'https://api.api-ninjas.com/v1/exercises?muscle='
+
+    # Make the POST request to the API
+        response = requests.get(url +query , headers={'X-Api-Key': 'kELJsTw/wyxwiijafbI+xA==HFqUpMC1PJqQSw5k'})
+
+    # Check if the request was successful
+        try:
+        # If successful, process the response content and render a template
+            api = json.loads(response.content)
+            print(response.content)
+        except Exception as e: 
+            api = " oops! your requested exercise was not found."
+            print (e)
+        return render(request, 'exercise_index.html',{'api':api})
+    else:
+
+        query = 'biceps'
+            # Define the URL of the API endpoint and the data to be sent
+        url = 'https://api.api-ninjas.com/v1/exercises?muscle='
+                
+            # Make the POST request to the API
+        response = requests.get(url +query , headers={'X-Api-Key': 'kELJsTw/wyxwiijafbI+xA==HFqUpMC1PJqQSw5k'})
+
+            # Check if the request was successful
+        try:
+                # If successful, process the response content and render a template
+                    api = json.loads(response.content)
+                    print(response.content)
+        except Exception as e: 
+                    api = " oops! your requested exercise was not found."
+                    print (e)
+        return render(request, 'exercise_index.html',{'api':api})
+    
+
+

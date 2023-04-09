@@ -1,0 +1,140 @@
+{% extends 'base.html'%}
+
+
+
+{% block title %}SmartCalo | {{ title }}{% endblock title%}
+
+
+
+{% block content %}
+
+<style>
+    .card{
+        border-radius: 4px;
+        background: #fff;
+        box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+          transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+      
+        cursor: pointer;
+        
+        padding-bottom: 1px;
+        
+        
+    }
+    
+    .card:hover{
+         transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    }
+
+    
+    
+</style>
+
+<div class='py-4 mt-auto'>
+    <div class='container px-4 my-container'>
+
+        <h3>{{ title }}</h3>
+
+        <br>
+        <br>
+
+        <div class='row justify-content-center'>
+
+        {% for food in pages %}
+            <div class='col-sm-12 col-md-12 col-lg-4 col-xl-3 d-flex align-items-stretch '>
+                <div class='card text-black bg-white card border-secondary mb-4' style='width: 18rem;'>
+
+                    <div class = image-box>
+                    <a href="{% url 'food_details' food.id %}" >
+                        
+                        <img 
+                            src="{{ food.image.image.url|default:'../../static/images/no_image.png' }}" 
+                            class='img-fluid'
+                            alt='food image'
+                        >
+                    </a>
+                </div>
+                    <div class="card-body">
+
+                        
+                      </div>
+                    <!-- Food image -->
+                   
+            
+                    <div class='card-body'>
+                        <h4 class='card-title'>
+                            <!-- Food name -->
+                            <strong>                        <h4 class="card-title">{{ food.food_name }}</h5></strong>
+                        </h4>
+
+                        <p class='card-text'>
+                            <div class='my-3'>
+                                <!-- Food category -->
+                                Category:  <h6 class="card-subtitle text-muted">{{ food.category }}</h6>
+                            </div>
+                        </p>
+
+                        <p class='card-text'>
+                            <div class='my-3'>
+                                <!-- Food calories -->
+                                <strong>{{ food.calories}} calories</strong> in {{ food.quantity|floatformat:0 }} grams
+                            </div>
+                        </p>
+
+                        
+                    </div>
+
+                </div>
+            </div>
+
+        {% endfor %}
+
+       
+        {% if pages.has_other_pages %}
+        
+            <div class='d-flex justify-content-center'>
+                <ul class='pagination'>
+                    {% if pages.has_previous %}
+                        <li class='page-item'>
+                            <a class='page-link' href='?page={{ pages.previous_page_number }}'>&laquo;</a>
+                        </li>
+                    {% else %}
+                        <li class='page-item disabled'>
+                            <a class='page-link' href='#'>&laquo;</a>
+                        </li>
+                    {% endif %}
+                    {% for i in pages.paginator.page_range %}
+                        {% if pages.number == i %}
+                            <li class='page-item active'>
+                                <a class='page-link' href='#'>{{ i }}</a>
+                            </li>
+                        {% else %}
+                            <li class='page-item'>
+                                <a class='page-link' href='?page={{ i }}'>{{ i }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if pages.has_next %}
+                        <li class='page-item'>
+                            <a class='page-link' href='?page={{ pages.next_page_number }}'>&raquo;</a>
+                        </li>
+                    {% else %}
+                        <li class='page-item disabled'>
+                            <a class='page-link' href='#'>&raquo;</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+
+{% endblock %}
+
+
+
+

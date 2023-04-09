@@ -51,7 +51,16 @@ class Food(models.Model):
     carbohydrates = models.DecimalField(max_digits=7, decimal_places=2)
     protein = models.DecimalField(max_digits=7, decimal_places=2)
     category = models.ForeignKey(FoodCategory, on_delete=models.CASCADE, related_name='food_category')
-
+    sodium = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+    cholesterol = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+    dietaryfiber = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+    sugar = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+    iron = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+    potassium = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+    magnesium = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+    calcium = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+    
+    
     def __str__(self):
         return f'{self.food_name} - category: {self.category}'
         
@@ -68,14 +77,14 @@ class FoodLog(models.Model):
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     food_consumed = models.ForeignKey(Food, on_delete=models.CASCADE)
-    food_entry_date = models.DateField(default=timezone.now)
+    food_entry_date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         verbose_name = 'Food Log'
         verbose_name_plural = 'Food Log'
 
     def __str__(self):
-        return f'{self.user.username} - {self.food_consumed.food_name}'
+        return f'{self.user.username} - {self.food_consumed.food_name} on {self.food_entry_date}'
 
 
 class Weight(models.Model):
