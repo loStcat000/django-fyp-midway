@@ -1,12 +1,31 @@
 {% extends 'base.html' %}
 
-{% block title %}Food Tracker | Food Log{% endblock %}
+{% block title %}Food Tracker | Delete{% endblock %}
+
 
 {% block content %}
+
+<style>
+
+    #intro-upper {
+        opacity: 0.9;  
+        height: 300px; 
+      }
+
+    body {
+        background-image: url('/static/images/katie-smith-uQs1802D0CQ-unsplash.jpg');
+        background-size: cover;
+      }
+    
+   .card {
+    opacity: 0.9;
+   }
+</style>
+
 <div class='py-4 mt-auto'>
     <div class='container-fluid px-4'>
-
-        <h3>Food Log</h3>
+        <br>
+        <h2 class="text-primary">Food Log</h2>
 
             <div class='row justify-content-center'>
                 <div class='col-xl-12'>
@@ -18,7 +37,7 @@
                                     {% csrf_token %}
 
                                     Are you sure you want to delete this food item?
-                                    <button type='submit' class='btn btn-primary'>Delete</button>
+                                    <button type='submit' class='btn btn-danger'>Delete</button>
 
                                 </form>
 

@@ -7,7 +7,7 @@
 {% block content %}
 <div class='py-4 mt-auto'>
     <div class='container-fluid px-4'>
-        <a href="{% url 'food_list' %}" class='btn btn-outline-primary my-3'>Go Back</a>
+        <a href="{% url 'food_list' %}" class='btn btn-outline-info my-3'>Go Back</a>
 
         <h3>{{ food.food_name }}</h3>
         <h5>Category: {{ food.category }}</h5>
@@ -21,7 +21,7 @@
                         <img 
                             src="{{ image.image.url|default:'../../static/images/no_image.png' }}" 
                             class='img-fluid'
-                            alt='food image'
+                            alt='food image'  style= 'max-height: 700px;'
                         >
                     </a>
                 {% endfor %}

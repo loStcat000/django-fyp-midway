@@ -1,5 +1,6 @@
 from django import forms
-from .models import UserData, Food, Image
+from .models import UserData, Food, Image, Weight
+from django.forms.widgets import DateInput
 
 class UserDataForm(forms.ModelForm):
     
@@ -32,3 +33,13 @@ class ImageForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ImageForm, self).__init__(*args, **kwargs)
         self.visible_fields()[0].field.widget.attrs['class'] = 'form-control'
+
+
+#Weight Form#
+class WeightForm(forms.ModelForm):
+    class Meta:
+        model = Weight
+        fields = ['weight', 'entry_date']
+        widgets = {
+            'entry_date': DateInput(attrs={'type': 'date'})
+        }

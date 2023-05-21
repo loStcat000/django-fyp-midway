@@ -1,0 +1,80 @@
+{% extends 'base.html'%}
+{% load static %}
+
+
+{% block title %}SmartCalo | Search {{ title }}{% endblock title%}
+
+
+
+{% block content %}
+
+<style>
+   
+    
+</style>
+
+<div class='py-4 mt-auto'>
+    <div class='container px-4 my-container'>
+
+        
+
+        <br>
+        <br>
+
+        <div class='row justify-content-center'>
+
+
+{% if results %}
+    <h2>Search Results for "{{ query }}"</h2>
+    <ul>
+        {% for food in results %}
+        <div class='col-sm-12 col-md-12 col-lg-4 col-xl-3 d-flex align-items-stretch'>
+            <div class='card text-black bg-white card border-secondary mb-4' style='width: 18rem;'>
+    
+                <!-- Food image -->
+                <div class='image-box'>
+                    <a href="{% url 'food_details' food.id %}">
+                        {% if food.get_images.all %}
+                            <img src="{{ food.get_images.first.image.url }}" class='img-fluid'>
+                        {% else %}
+                            <img src="{% static 'images/no_image.png' %}" class='img-fluid'>
+                        {% endif %}
+                    </a>
+                </div>
+    
+                <div class="card-body">
+                </div>
+    
+                <div class='card-body'>
+                    <h4 class='card-title'>
+                        <!-- Food name -->
+                        <strong>{{ food.food_name }}</strong>
+                    </h4>
+    
+                    <p class='card-text'>
+                        <div class='my-3'>
+                            <!-- Food category -->
+                            Category:  <h6 class="card-subtitle text-muted">{{ food.category }}</h6>
+                        </div>
+                    </p>
+    
+                    <p class='card-text'>
+                        <div class='my-3'>
+                            <!-- Food calories -->
+                            <strong>{{ food.calories}} calories</strong> in {{ food.quantity|floatformat:0 }} grams
+                        </div>
+                    </p>
+    
+                </div>
+    
+            </div>
+        </div>
+    {% endfor %}
+    
+    </ul>
+{% else %}
+    <p>No results found for "{{ query }}".</p>
+{% endif %}
+
+
+{% endblock %}

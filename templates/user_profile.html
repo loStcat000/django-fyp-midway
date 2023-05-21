@@ -2,9 +2,35 @@
 
 {% load static %}
 
-{% block title %}SmartCalo | Food Log{% endblock %}
+{% block title %}SmartCalo | User Profile{% endblock %}
 
 {% block content %}
+
+{% if not request.user.is_authenticated %}
+<div class="alert alert-danger" role="alert">
+  You must be logged in to access this page.
+</div>
+{% endif %}
+
+<style>
+
+    #intro-upper {
+        opacity: 0.9;  
+        height: 200px; 
+        background: transparent;
+      }
+
+    body {
+        background-image: url('/static/images/georgie-cobbs-bKjHgo_Lbpo-unsplash.jpg');
+        background-size: cover;
+      }
+    
+    .card {
+        opacity: 0.9; 
+        
+    }
+</style>
+
 <div class='py-4 mt-auto'>
     <div class='container-fluid px-4'>
 
@@ -122,7 +148,7 @@
                                                     <td class='col-md-4'>{{ weight_record.weight }}</td>
                                                     <td class='col-md-4'>{{ weight_record.entry_date|date:'Y-m-d' }}</td>
                                                     <td class='col-md-4'>
-                                                        <a class='btn btn-success' href="#" style='margin-right:2px;'>
+                                                        <a class='btn btn-success' href="{% url 'weight_log_edit' weight_record.id %}" style='margin-right:2px;'>
                                                         <i class='fas fa-edit'></i>
                                                     </a>
                                                     <a class='btn btn-danger' href="{% url 'weight_log_delete' weight_record.id %}">

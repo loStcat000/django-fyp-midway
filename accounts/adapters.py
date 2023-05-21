@@ -13,3 +13,11 @@ class AccountAdapter(DefaultAccountAdapter):
         self.populate_username(request, user)
         user.save()
         return user
+
+from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+
+class MySocialAccountAdapter(DefaultSocialAccountAdapter):
+    def get_login_view(self, request, **kwargs):
+        view = super().get_login_view(request, **kwargs)
+        view.template_name = 'my_github_login.html'
+        return view

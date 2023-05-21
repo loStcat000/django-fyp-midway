@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load custom_filters %}
+
+{% block title %} User | Edit Password {% endblock %}
+
+{% block content %}
+
+<style>
+
+  #intro-upper {
+      opacity: 0.9;  
+      height: 200px; 
+      background: transparent;
+    }
+
+  body {
+      background-image: url('/static/images/joanna-kosinska-1_CMoFsPfso-unsplash.jpg');
+      background-size: cover;
+    }
+  
+  {% comment %} .card {
+      opacity: 0.9;  
+      
+  } {% endcomment %}
+</style>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h2 class="text-center mb-0">Edit Password</h2>
+        </div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            {{ password_form.as_p }}
+            
+            <div class="form-group mt-4 text-center">
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+              <a href="{% url 'food_list' %}" class="btn btn-secondary ml-2">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

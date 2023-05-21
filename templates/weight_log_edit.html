@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Edit Weight Log</h4>
+        </div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              {{ form.weight.label_tag }}
+              {{ form.weight }}
+            </div>
+            <br>
+            <div class="form-group">
+              {{ form.entry_date.label_tag }}
+              {{ form.entry_date }}
+            </div>
+            <br>
+            <button type="submit" class="btn btn-outline-success">Save changes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount', 
 
     'allauth.socialaccount.providers.google',#for google auth
-    'allauth.socialaccount.providers.github', 
+    'allauth.socialaccount.providers.github', #for github auth
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -62,6 +62,7 @@ AUTHENTICATION_BACKENDS = (
  
  )
 
+
 SITE_ID = 3
 
 LOGIN_REDIRECT_URL = '/'
@@ -72,6 +73,7 @@ ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 ACCOUNT_ADAPTER = "accounts.adapters.AccountAdapter"
+SOCIALACCOUNT_ADAPTER = 'accounts.adapters.MySocialAccountAdapter'
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -90,7 +92,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
     
 }
-
+SOCIALACCOUNT_LOGIN_ON_GET=True
 ACCOUNT_SIGNUP_FORM_CLASS = 'accounts.forms.SignupForm'
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -147,6 +149,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'social_django.context_processors.backends',
+            ],
+         'builtins': [
+                'pages.templatetags.custom_filters',  # add your custom filter library here
             ],
         },
     },
@@ -225,3 +230,5 @@ LOGOUT_REDIRECT_URL = 'index' # new
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"

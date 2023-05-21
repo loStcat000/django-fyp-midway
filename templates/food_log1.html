@@ -3,94 +3,102 @@
 {% extends 'base.html' %}   
 
 {% load static %}
-{% block content %}            
-<div class='py-4 mt-auto'>
-    <div class='container-fluid px-4'>
-        
-        
-        <div class='row justify-content-center'>
-            <div class='col-xl-12'>
-                
-                    <div class='row'>
-                        <div class='col-md-12 mt-5'>
+ 
+{% block title %} SmartCalo {% endblock %}
+{% block content %}  
 
-                            <div class='card bg-light mb-3'>
-                              
-                                <div class='card-header'>
-                                    <h5>Select exercise to know the calories burned</h5>
-                                </div>
-                                <div class='card-body'>
+<style>
 
-                                    <div class='input-group'>
-                                        <form method='POST'>
-                                            {% csrf_token %}
-                                            <div class='input-group'>
-                                                <div class='row'>
-                                                    <div class='col-md-12'>
-                                                        <input type = 'text' name = 'query' class = 'form-control inputstyle'
-                                                            placeholder='search for calories burned from exercise...' required>
+    body {
+        background-image: url('/static/images/gabin-vallet-J154nEkpzlQ-unsplash.jpg');
+        background-size: cover;
+      }
+    
+      #intro-upper {
+        height: 200px;
+        background-color: transparent
 
-                                                    </div>
-                                                    <div class='col-md-12 mt-2'>
-                                                        <button type='submit' class='btn btn-success'>
-                                                            Add Exercise
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+    
+      }
+    </style>
+    <div class="container my-5">
+        <div class="row justify-content-center">
+          <div class="col-lg-10">
+            <div class="card border-0 shadow">
+              <div class="card-header bg-primary text-white">
+                <h2 class="text-center mb-0">Calories Burned through Exercise</h2>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="card mb-3 border-0 shadow-sm">
+                      <div class="card-header bg-light">
+                        <h5 class="mb-0">Select an exercise to see calories burned</h5>
+                      </div>
+                      <div class="card-body">
+                        <form method="POST">
+                          {% csrf_token %}
+                          <div class="form-group">
+                            <div class="input-group">
+                              <input type="text" name="query" class="form-control rounded-pill border-0"
+                                placeholder="Search for exercise..." required>
+                              <button type="submit" class="btn btn-success rounded-pill ms-2">Add Exercise</button>
                             </div>
-        <div class='card bg-light mb-7'>
-
-            <div class='card-header'>
-                
-                                            <h5>Calories Burned through exercise</h5>
-                                            
-                                        </div>
-                                        <div class='card-body'>
-        
-                                            <table id='foodtable' class='table table-hover'>
-                                                <thead>
-                                                    <tr>
-                                                        <th scope='col' class='col-md-2'>Name</th>
-                                                        <th scope='col' class='col-md-2'>Calories Burned</th>
-                                                        <th scope='col' class='col-md-2'>Duration (minutes)</th>
-                                                        <th scope='col' class='col-md-2'>Total Calories</th>
-                                                    
-                                                
-                                                    </tr>
-                                                </thead>    
-                                              
-                                                <tbody>
-                                                    {% for item in api %}
-                                                   
-                                                    <tr>
-                                                        <td class='col-md-2'>{{ item.name }}</td>
-                                                        <td class='col-md-2'>{{ item.calories_per_hour }}</td>
-                                                        <td class='col-md-2'>{{ item.duration_minutes }}</td>
-                                                        <td class='col-md-2'>{{ item.total_calories }}</td>  
-                                                    </td>
-                                                    </tr>     
-                                                    {% endfor %}
-                                                    
-                                                </tbody>
-
-                                            </table>
-      
-                                        </div>
-                                    </div>
-
-     
-        <div class='col-md-12 mt-5'>    
-            
-                    <canvas id="myChart" height = "700"></canvas>
-                        
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="card border-0 shadow-sm">
+                      <div class="card-header bg-light">
+                        <h5 class="mb-0">Calories Burned</h5>
+                      </div>
+                      <div class="card-body">
+                        <div class="table-responsive">
+                          <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Calories Burned</th>
+                                <th scope="col">Duration (minutes)</th>
+                                <th scope="col">Total Calories</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for item in api %}
+                              <tr>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.calories_per_hour }}</td>
+                                <td>{{ item.duration_minutes }}</td>
+                                <td>{{ item.total_calories }}</td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-5">
+                  <div class="col-md-12">
+                    <div class="card border-0 shadow-sm">
+                      <div class="card-header bg-light">
+                        <h5 class="mb-0">Calories Burned Chart</h5>
+                      </div>
+                      <div class="card-body">
+                        <canvas id="myChart" height="700"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-           
-
-
+      </div>
+      
 {% block script %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/script.js/2.5.9/script.min.js" integrity="sha512-nQUxc8VAJRo3Q01idWkxWJADjVoRenyGNrUy6+ighjjZg/obzeII29QiMMVfYpCEVQyFyWEiOEw4uhJqX9/J6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>                         

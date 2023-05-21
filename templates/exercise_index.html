@@ -1,33 +1,91 @@
 {% extends 'base.html' %}   
 
 {% load static %}
+
+{% block title %} Exercise Index {% endblock title %}  
 {% block content %}      
 
 <style>
 
+  
+    .unique-card .card:hover {
+        transform: translateY(-5px);
+      }
+
+    .unique-card .card {
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        background-color: #f2f2f2;
+      }
+    
+      .unique-card .card-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 0;
+      }
+    
+      .unique-card .card-text {
+        font-size: 16px;
+        margin-bottom: 5px;
+      }
+    
+      .unique-card .btn-primary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        font-weight: bold;
+        padding: 10px 30px;
+      }
+    
+      .unique-card .btn-primary:hover {
+        background-color: #555;
+        border-color: #555;
+      }
+    .instructions {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #f5f5f5;
+    }
+    .view-more {
+      margin-top: 1rem;
+    }
+
+    
+      .container-fluid {
+          background-image: url('your-image.jpg');
+          background-size: cover;
+          background-position: center;
+      }
+      
+      .unique-card {
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      body {
+        background-image: url('/static/images/victor-freitas-WvDYdXDzkhs-unsplash.jpg');
+        background-size: cover;
+      }
+
+      #intro-upper {
+        height: 200px;
+        background-color: transparent;
+        
+      }
+
+      .card {
+        opacity: 0.9;  
+        
+    }
+
+    
+  </style>
+  
+ 
  
 
-    #unique-card{
-        border-radius: 4px;
-        background-color: #f8f9fa;
-        box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
-          transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
-      
-        cursor: pointer;
-        
-        padding-bottom: 1px;
-        
-        
-    }
-    
-    #unique-card:hover{
-         transform: scale(1.05);
-      box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
-    }
-
-</style>
-
-<div class='py-4 mt-auto'>
+<div class='py-4 mt-auto' >
     <div class='container-fluid px-4'>
         
         
@@ -37,7 +95,7 @@
                     <div class='row'>
                         <div class='col-md-12 mt-5'>
 
-                            <div class='card bg-white mb-3'>
+                            <div class='card bg-grey mb-3 rounded'>
                               
                                 <div class='card-header'>
                                     <h5>Select muscle group </h5>
@@ -56,7 +114,7 @@
                                                     </div>
                                                     <div class='col-md-12 mt-2'>
                                                         <button type='submit' class='btn btn-success'>
-                                                            Add Exercise 
+                                                            Search Exercise 
                                                         </button>
                                                     </div>
                                                 </div>
@@ -67,64 +125,60 @@
                             </div>
 
                           
-                            <div class='row justify-content-center' >
+                            <div class='row justify-content-center unique-card'>
                                 {% for item in api %}   
-
-                                <div class='col-sm-12 col-md-12 col-lg-4 col-xl-3 d-flex align-items-stretch ' >
-                                    
-                                    <div class='card text-black bg-white card border-secondary mb-3 shadow-sm ' id="unique-card"  >
-                                        
-                                     
-                                       
                                 
-                                        <div class='card-body' >
-
-                                            <h4 class='card-title'>
-                                                <!-- Food name -->
-                                                <strong>Name: {{ item.name }}</strong>
-                                            </h4>
-                                
+                                <div class='col-sm-12 col-md-6 col-lg-4 col-xl-3'>
+                                    <div class='card  border-secondary mb-3 shadow-sm'  >
+                                      <div class='card-body'>
+                                        <h4 class='card-title'>
+                                          <strong>{{ item.name }}</strong>
+                                        </h4>
+                                        <hr>
+                                        <div class='row'>
+                                          <div class='col-6'>
                                             <p class='card-text'>
-                                                <div class='my-3'>
-                                                    <!-- Food category -->
-                                                    Type: {{ item.type }}
-                                                </div>
+                                              <strong>Type:</strong> {{ item.type }}
                                             </p>
-                                            
                                             <p class='card-text'>
-                                                <div class='my-3'>
-                                                    <!-- Food category -->
-                                                    Muscle: {{ item.muscle }}
-                                                </div>
+                                              <strong>Muscle:</strong> {{ item.muscle }}
                                             </p>
-                                
+                                          </div>
+                                          <div class='col-6'>
                                             <p class='card-text'>
-                                                <div class='my-3'>
-                                                    <!-- Food category -->
-                                                    equipment: {{ item.equipment }}
-                                                </div>
+                                              <strong>Equipment:</strong> {{ item.equipment }}
                                             </p>
-                                
                                             <p class='card-text'>
-                                                <div class='my-3'>
-                                                    <!-- Food category -->
-                                                    difficulty: {{ item.difficulty }}
-                                                </div>
+                                              <strong>Difficulty:</strong> {{ item.difficulty }}
                                             </p>
-                                
-                                            
+                                          </div>
                                         </div>
-                                
+                                        <div class='instructions' style='display: none;'>
+                                          <hr>
+                                          <h5><strong>Instructions:</strong></h5>
+                                          <p>{{ item.instructions }}</p>
+                                        </div>
+                                        <button type='button' class='btn btn-primary mt-3 view-more'>View More</button>
+                                      </div>
                                     </div>
-                                </div> 
+                                  </div>
                                   
                                  
                                 {% endfor %}
 
+    <script>
+        const viewMoreButtons = document.querySelectorAll('.view-more');
+        viewMoreButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const instructionsDiv = button.parentNode.querySelector('.instructions');
+                instructionsDiv.style.display = instructionsDiv.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+    </script>
 {% block script %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/script.js/2.5.9/script.min.js" integrity="sha512-nQUxc8VAJRo3Q01idWkxWJADjVoRenyGNrUy6+ighjjZg/obzeII29QiMMVfYpCEVQyFyWEiOEw4uhJqX9/J6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
-  
+
 {% endblock script %}
 {% endblock content %} 
 

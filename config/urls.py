@@ -18,14 +18,20 @@ from django.urls import path, include
 from accounts import views
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib.auth import views as auth_views
+
 
 
 urlpatterns = [
+
+ 
+
     path('admin/clearcache/', include('clearcache.urls')),
     path('admin/', admin.site.urls),
     #User Management
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('pages.urls')),
+    path('changepassword/', views.changepassword, name='changepassword'),
     path("login/", views.login_request, name="login"), #login
     path('signup/',views.signup_request, name='signup'), #signup
     path('logout/',views.logout_request, name='logout'), #logout

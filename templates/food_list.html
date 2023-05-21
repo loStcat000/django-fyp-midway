@@ -2,21 +2,20 @@
 
 
 
-{% block title %}SmartCalo | {{ title }}{% endblock title%}
 
+{% block title %}SmartCalo | {{ title }}{% endblock title%}
 
 
 {% block content %}
 
-<style>
+ <style>
     .card{
-        border-radius: 4px;
-        background: #fff;
-        box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
-          transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
-      
+        background: #f8f9fa; /* Set the background color to match your website */
+    border: white; /* Remove the border */
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    margin-bottom: 30px; /* Add some margin to separate the cards */
         cursor: pointer;
-        
+        opacity: 0.9;
         padding-bottom: 1px;
         
         
@@ -27,70 +26,74 @@
       box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
     }
 
+    body {
+        background-image: url('/static/images/patrick-fore-hoxqcGUheeo-unsplash.jpg');
+        background-size: cover;
+      }
     
+      #intro-upper {
+        opacity: 0.9;  
+       
+        height: 300px; 
+      }
+      
     
-</style>
+</style> 
+
+{% if messages %}
+    <div class="alert alert-success">
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
 
 <div class='py-4 mt-auto'>
     <div class='container px-4 my-container'>
-
-        <h3>{{ title }}</h3>
-
         <br>
         <br>
-
         <div class='row justify-content-center'>
 
-        {% for food in pages %}
-            <div class='col-sm-12 col-md-12 col-lg-4 col-xl-3 d-flex align-items-stretch '>
-                <div class='card text-black bg-white card border-secondary mb-4' style='width: 18rem;'>
-
-                    <div class = image-box>
-                    <a href="{% url 'food_details' food.id %}" >
-                        
-                        <img 
-                            src="{{ food.image.image.url|default:'../../static/images/no_image.png' }}" 
-                            class='img-fluid'
-                            alt='food image'
-                        >
-                    </a>
-                </div>
-                    <div class="card-body">
-
-                        
-                      </div>
-                    <!-- Food image -->
-                   
-            
-                    <div class='card-body'>
-                        <h4 class='card-title'>
-                            <!-- Food name -->
-                            <strong>                        <h4 class="card-title">{{ food.food_name }}</h5></strong>
-                        </h4>
-
-                        <p class='card-text'>
-                            <div class='my-3'>
-                                <!-- Food category -->
-                                Category:  <h6 class="card-subtitle text-muted">{{ food.category }}</h6>
+            <div class='container'>
+                <div class='row'>
+                    {% for food in pages %}
+                    <div class='col-sm-12 col-md-12 col-lg-4 col-xl-3 d-flex align-items-stretch'>
+                        <div class='card text-white bg-primary card  mb-4' style='width: 18rem;'>
+                            <!-- Food image -->
+                            <div class=image-box>
+                                <a href="{% url 'food_details' food.id %}">
+                                    <img src="{{ food.image.image.url|default:'../../static/images/no_image.png' }}" class='img-fluid' alt='food image'>
+                                </a>
                             </div>
-                        </p>
-
-                        <p class='card-text'>
-                            <div class='my-3'>
-                                <!-- Food calories -->
-                                <strong>{{ food.calories}} calories</strong> in {{ food.quantity|floatformat:0 }} grams
+                            <div class='card-body'>
+                                <h4 class='card-title'>
+                                    <!-- Food name -->
+                                    <strong><h4 class="card-title">{{ food.food_name }}</h5></strong>
+                                </h4>
+                                <p class='card-text'>
+                                    <div class='my-3'>
+                                        <!-- Food category -->
+                                        Category: <h6 class="card-subtitle text-muted">{{ food.category }}</h6>
+                                    </div>
+                                </p>
+                                <p class='card-text'>
+                                    <div class='my-3'>
+                                        <!-- Food calories -->
+                                        <strong>{{ food.calories }} calories</strong> in {{ food.quantity|floatformat:0 }} grams
+                                    </div>
+                                </p>
                             </div>
-                        </p>
-
-                        
+                        </div>
                     </div>
-
+                    
+                    {% endfor %}
                 </div>
             </div>
-
-        {% endfor %}
-
-       
+            
+      
         {% if pages.has_other_pages %}
         
             <div class='d-flex justify-content-center'>

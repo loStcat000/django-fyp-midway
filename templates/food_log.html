@@ -2,10 +2,34 @@
 
 {% load static %}
 
-{% block title %}Food Tracker | Food Log{% endblock %}
+{% block title %}Food Tracker | Food Log <title>Food Tracker | Food Log</title>{% endblock %}
 
 {% block content %}
 
+{% comment %} <style>
+    #intro-upper {
+        height: 500px;
+        background-color: hsl(0, 0%, 94%);
+      }
+</style> {% endcomment %}
+
+<style>
+
+    #intro-upper {
+        opacity: 0.9;  
+        height: 300px; 
+      }
+
+    body {
+        background-image: url('/static/images/katie-smith-uQs1802D0CQ-unsplash.jpg');
+        background-size: cover;
+      }
+    
+    .card {
+        opacity: 0.9;  
+        
+    }
+</style>
 
 <div class='py-4 mt-auto'>
     <div class='container-fluid px-4'>
@@ -17,9 +41,9 @@
                     <div class='row'>
                         <div class='col-md-6 mt-4'>
 
-                            <div class='card bg-light mb-3'>
+                            <div class='card bg-light mb-3 rounded'>
                                 <div class='card-header'>
-                                    <h5>Select food to add to the Food Log</h5>
+                                    <h5 class="text-center mb-0">Select food to add to the Food Log <h5 class="text-center mb-0">
                                 </div>
                                 <div class='card-body'>
 
@@ -53,7 +77,7 @@
                             
                     
 
-                            <div class='card bg-light mb-3'>
+                            <div class='card bg-light mb-3 rounded' >
 
                                 <div class='card-header'>
                                     <h5>Food consumed today</h5>
@@ -106,9 +130,9 @@
                             
                         </div>
                         
-                        <div class='col-md-6 mt-4'>
+                        <div class='col-md-6 mt-4 rounded' >
 
-                            <div class='card bg-light mb-3'>
+                            <div class='card bg-light mb-3 rounded' >
                                 <div class='card-header'>
                                     <h5>Daily Calorie Goal - <strong class='text-primary'>2,000 calories</strong></h5>
                                 </div>
@@ -129,7 +153,7 @@
                                 </div>
                             </div>
 
-                            <div class='card bg-light mb-3'>
+                            <div class='card bg-light mb-3 rounded' >
                                 <div class='card-header'>
                                     <h5>Macronutrients Breakdown</h5>
                                 </div>

@@ -10,14 +10,61 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse
 from datetime import datetime
 from datetime import date
-
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic.edit import DeleteView, UpdateView
+from django.views.generic import ListView
+from django.urls import reverse_lazy
 from .models import Food, FoodCategory, Image, Weight, FoodLog
-from .forms import FoodForm, ImageForm
+from .forms import FoodForm, ImageForm, WeightForm
+from django.db.models import Q
 
-# Create your views here.
+
+class FoodListView(ListView):
+    model = Food
+    template_name =( 'food_list_admin.html')
+    context_object_name = 'foods'
+    paginate_by = 8
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        paginator = Paginator(self.object_list, self.paginate_by)
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context['page_obj'] = page_obj
+        return context
+
+class FoodDeleteView(DeleteView):
+     model = Food
+     success_url = reverse_lazy('food_list_admin')
+     template_name = 'food_confirm_delete.html'
+
+
+class FoodUpdateView(UpdateView):
+    model = Food
+    template_name =  'food_update.html'
+    success_url = reverse_lazy('food_list_admin')
+    form_class = FoodForm
+    
 def index(request):
     
     return render(request, 'index.html')
+
+
+def search(request):
+    
+
+    
+    query = request.GET.get('q')
+    results = Food.objects.filter(
+        Q(food_name__icontains=query) |
+        Q(category__category_name__icontains=query)
+    )
+
+    for food in results:
+        food.image = food.get_images.first()
+
+    context = {'results': results, 'query': query}
+    return render(request, 'search_results.html', context)
 
 def User_Data(request):
         if request.method == "POST":
@@ -207,6 +254,25 @@ def weight_log_view(request):
         'user_weight_log': user_weight_log
     })
 
+def weight_log_edit(request, weight_id):
+    '''
+    It allows the user to edit a weight record in their weight log
+    '''
+    weight_recorded = get_object_or_404(Weight, id=weight_id, user=request.user)
+
+    if request.method == 'POST':
+        form = WeightForm(request.POST, instance=weight_recorded)
+        if form.is_valid():
+            form.save()
+            return redirect('weight_log')
+    else:
+        form = WeightForm(instance=weight_recorded)
+
+    return render(request, 'weight_log_edit.html', {
+        'form': form,
+        'weight_recorded': weight_recorded,
+        'categories': FoodCategory.objects.all()
+    })
 
 @login_required
 def weight_log_delete(request, weight_id):
@@ -310,6 +376,7 @@ def exerciseindex(request):
         return render(request, 'exercise_index.html',{'api':'Enter a valid exercise'})
     
 
+'''exerciseindex'''
 def post_api_data(request):
     import json
     import requests
@@ -352,4 +419,28 @@ def post_api_data(request):
         return render(request, 'exercise_index.html',{'api':api})
     
 
+'''admin deactivate function'''
 
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.shortcuts import render
+from django.contrib.auth.models import User
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def user_list(request):
+    users = User.objects.all()
+    context = {'users': users}
+    return render(request, 'user_list.html', context)
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def user_toggle(request, user_id):
+    user = User.objects.get(id=user_id)
+    status = request.POST.get('status')
+    if status == '0':
+        user.is_active = False
+    else:
+        user.is_active = True
+    user.save()
+    return redirect('user_list')

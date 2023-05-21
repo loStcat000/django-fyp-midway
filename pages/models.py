@@ -51,14 +51,7 @@ class Food(models.Model):
     carbohydrates = models.DecimalField(max_digits=7, decimal_places=2)
     protein = models.DecimalField(max_digits=7, decimal_places=2)
     category = models.ForeignKey(FoodCategory, on_delete=models.CASCADE, related_name='food_category')
-    sodium = models.DecimalField(max_digits=7, decimal_places=2, default=0)
-    cholesterol = models.DecimalField(max_digits=7, decimal_places=2, default=0)
-    dietaryfiber = models.DecimalField(max_digits=7, decimal_places=2, default=0)
-    sugar = models.DecimalField(max_digits=7, decimal_places=2, default=0)
-    iron = models.DecimalField(max_digits=7, decimal_places=2, default=0)
-    potassium = models.DecimalField(max_digits=7, decimal_places=2, default=0)
-    magnesium = models.DecimalField(max_digits=7, decimal_places=2, default=0)
-    calcium = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+
     
     
     def __str__(self):

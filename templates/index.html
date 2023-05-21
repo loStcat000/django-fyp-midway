@@ -40,7 +40,7 @@
     <div class="container">
       <div class="header-container d-flex align-items-center justify-content-between">
         <div class="logo">
-          <h1 class="text-light"><a href="/index"><span>SmartCalo</span></a></h1>
+          <h1 class="text-light"><a href=""><span>SmartCalo</span></a></h1>
           <!-- Uncomment below if you prefer to use an image logo -->
           <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
         </div>
@@ -54,19 +54,23 @@
             <li><a class="nav-link scrollto" href="#team">Team</a></li>
             <li class="dropdown"><a href="#"><span>Quick Links </span> <i class="bi bi-chevron-down"></i></a>
               <ul>
-                <li><a href="#">Drop Down 1</a></li>
-                <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
-                  <ul>
-                    <li><a href="#">Deep Drop Down 1</a></li>
-                    <li><a href="#">Deep Drop Down 2</a></li>
-                    <li><a href="#">Deep Drop Down 3</a></li>
-                    <li><a href="#">Deep Drop Down 4</a></li>
-                    <li><a href="#">Deep Drop Down 5</a></li>
-                  </ul>
-                </li>
+                <li class="dropdown">
+                
+              
+
+                <div class='dropdown-menu'>
+                  {% for category in categories %}
+                  <a class='dropdown-item' href="{% url 'category_details_view' category.category_name %}">
+                      {{ category }} &nbsp;
+                      <span class='badge bg-primary'>
+                          {{ category.count_food_by_category }}
+                      </span>
+                  </a>
+                  {% endfor %}
+              </div>
                 <li><a href="/food/list">Food List</a></li>
-                <li><a href="#">Drop Down 3</a></li>
-                <li><a href="#">Drop Down 4</a></li>
+                <li><a href="/signup">Sign Up</a></li>
+             
               </ul>
             </li>
             <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
@@ -300,7 +304,7 @@
       </div>
     </section><!-- End Services Section -->
 
-    <!-- ======= Portfolio Section ======= -->
+    {% comment %} <!-- ======= Portfolio Section ======= -->
     <section id="portfolio" class="portfolio">
       <div class="container">
 
@@ -451,7 +455,7 @@
         </div>
 
       </div>
-    </section><!-- End Portfolio Section -->
+    </section><!-- End Portfolio Section --> {% endcomment %}
 
     <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials section-bg">
@@ -650,21 +654,21 @@
             <div class="info mt-4">
               <i class="bi bi-geo-alt"></i>
               <h4>Location:</h4>
-              <p>A108 Adam Street, Kathmandu, NY 535022</p>
+              <p>A108, Kathmandu, NYNP 535022</p>
             </div>
             <div class="row">
               <div class="col-lg-6 mt-4">
                 <div class="info">
                   <i class="bi bi-envelope"></i>
                   <h4>Email:</h4>
-                  <p>info@example.com</p>
+                  <p>giridixit20@gmail.com</p>
                 </div>
               </div>
               <div class="col-lg-6">
                 <div class="info w-100 mt-4">
                   <i class="bi bi-phone"></i>
                   <h4>Call:</h4>
-                  <p>+1 5589 55488 55s</p>
+                  <p>9869167468</p>
                 </div>
               </div>
             </div>
@@ -700,8 +704,8 @@
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
-  <footer id="footer">
-
+  {% comment %} <footer id="footer"> {% endcomment %}
+{% comment %} 
     <div class="footer-top">
       <div class="container">
         <div class="row">
@@ -749,7 +753,7 @@
 
         </div>
       </div>
-    </div>
+    </div> {% endcomment %}
 
     <div class="container d-md-flex py-4">
 
@@ -757,20 +761,14 @@
         <div class="copyright">
           &copy; Copyright <strong><span>SmartCalo</span></strong>. All Rights Reserved
         </div>
-        <div class="credits">
-          <!-- All the links in the footer should remain intact. -->
-          <!-- You can delete the links only if you purchased the pro version. -->
-          <!-- Licensing information: https://bootstrapmade.com/license/ -->
-          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bethany-free-onepage-bootstrap-theme/ -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
+        
       </div>
       <div class="social-links text-center text-md-right pt-3 pt-md-0">
-        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+       
+        <a href="https://www.facebook.com/sea.injoker/" class="facebook"><i class="bx bxl-facebook"></i></a>
+        <a href="https://instagram.com/dixit_giri" class="instagram"><i class="bx bxl-instagram"></i></a>
+        
+        <a href="https://github.com/loStcat000" class="github"><i class="bx bxl-github"></i></a>
       </div>
     </div>
   </footer><!-- End Footer -->
@@ -792,3 +790,4 @@
 </body>
 
 </html>
+
